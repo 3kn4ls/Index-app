@@ -1,0 +1,26 @@
+<div class="app-container">
+  <!-- Header -->
+  <mat-toolbar color="primary" class="app-toolbar">
+    <mat-icon class="toolbar-icon">window</mat-icon>
+    <span class="toolbar-title">{{ title }}</span>
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="formExpanded = !formExpanded">
+      <mat-icon>{{ formExpanded ? 'expand_less' : 'add' }}</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Device Form (Collapsible) -->
+    <mat-expansion-panel
+      [(expanded)]="formExpanded"
+      class="form-panel">
+      <app-device-form (deviceAdded)="formExpanded = false"></app-device-form>
+    </mat-expansion-panel>
+
+    <!-- Device List -->
+    <app-device-list></app-device-list>
+  </div>
+</div>
+
+<router-outlet />

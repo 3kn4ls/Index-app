@@ -1,0 +1,58 @@
+.device-list-container {
+  padding: 16px;
+  min-height: 400px;
+}
+
+.devices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 16px;
+  padding: 16px 0;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+
+  .empty-icon {
+    font-size: 120px;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 24px;
+    color: rgba(0, 0, 0, 0.2);
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 16px;
+    max-width: 400px;
+  }
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 24px;
+
+  p {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.6);
+  }
+}

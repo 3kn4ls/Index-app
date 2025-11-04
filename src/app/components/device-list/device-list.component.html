@@ -1,0 +1,22 @@
+<div class="device-list-container">
+  @if (devices$ | async; as devices) {
+    @if (devices.length === 0) {
+      <div class="empty-state">
+        <mat-icon class="empty-icon">devices</mat-icon>
+        <h2>No hay dispositivos configurados</h2>
+        <p>Agrega tu primer dispositivo usando el formulario de arriba</p>
+      </div>
+    } @else {
+      <div class="devices-grid">
+        @for (device of devices; track device.id) {
+          <app-blind-control [device]="device"></app-blind-control>
+        }
+      </div>
+    }
+  } @else {
+    <div class="loading-state">
+      <mat-spinner></mat-spinner>
+      <p>Cargando dispositivos...</p>
+    </div>
+  }
+</div>

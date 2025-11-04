@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build -- --configuration production",
+  "outputDirectory": "dist/blinds-control-app/browser",
+  "framework": "angular",
+  "routes": [
+    {
+      "src": "/ngsw-worker.js",
+      "headers": {
+        "Cache-Control": "public, max-age=0, must-revalidate"
+      },
+      "dest": "/ngsw-worker.js"
+    },
+    {
+      "src": "/ngsw.json",
+      "headers": {
+        "Cache-Control": "public, max-age=0, must-revalidate"
+      },
+      "dest": "/ngsw.json"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/manifest.webmanifest",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/manifest+json"
+        }
+      ]
+    }
+  ]
+}
