@@ -58,66 +58,61 @@ ng build --configuration production
 # Los archivos compilados estarán en dist/blinds-control-app/browser
 ```
 
-## Despliegue en Vercel (Recomendado)
+## 🚀 Despliegue Automático con Vercel + GitHub
 
-Vercel es la plataforma recomendada por su facilidad de uso y excelente soporte para Angular PWAs.
+### Despliegue Rápido en 3 Pasos
 
-### Opción 1: Deploy con Vercel CLI
-
-```bash
-# Instalar Vercel CLI
-npm i -g vercel
-
-# Login en Vercel
-vercel login
-
-# Deploy
-vercel
-
-# Deploy a producción
-vercel --prod
-```
-
-### Opción 2: Deploy desde GitHub
-
-1. **Sube tu código a GitHub**
+1. **Push tu código a GitHub**
    ```bash
-   git add .
-   git commit -m "Initial commit"
    git push origin main
    ```
 
 2. **Conecta con Vercel**
-   - Ve a [vercel.com](https://vercel.com)
-   - Haz clic en "New Project"
+   - Ve a [vercel.com](https://vercel.com) → "New Project"
    - Importa tu repositorio de GitHub
-   - Vercel detectará automáticamente que es un proyecto Angular
-   - Haz clic en "Deploy"
+   - **⚠️ IMPORTANTE:** Configura la variable de entorno:
+     - `API_URL` = `https://tu-api-iot.com`
 
-3. **Configuración Automática**
-   - Vercel configurará automáticamente:
-     - Framework Preset: Angular
-     - Build Command: `ng build`
-     - Output Directory: `dist/blinds-control-app/browser`
+3. **Deploy automático**
+   - Vercel despliega automáticamente
+   - Cada nuevo commit despliega automáticamente
+   - ✅ Despliegue continuo configurado
 
-### Configuración de Vercel
+### 🔄 CI/CD Automático
 
-El proyecto incluye un archivo `vercel.json` con la configuración óptima:
+✅ **Cada push a main:** Despliega a producción automáticamente
+✅ **Cada Pull Request:** Crea preview deployment
+✅ **Rollback fácil:** Un click para volver a versión anterior
 
-```json
-{
-  "version": 2,
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist/blinds-control-app/browser",
-  "framework": "angular",
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ]
-}
+📖 **[Ver guía completa de despliegue →](DEPLOYMENT.md)**
+
+### 🔧 Configuración de API
+
+La aplicación se conecta a tu API IoT con este formato:
+
 ```
+${API_URL}/api/devices/${deviceId}/command/${command}
+```
+
+**Comandos disponibles:**
+- `on` → Sube la persiana (abre)
+- `off` → Baja la persiana (cierra)
+- `stop` → Detiene el movimiento
+
+**Ejemplo:**
+```bash
+POST https://tu-api.com/api/devices/DOOR_001/command/on
+POST https://tu-api.com/api/devices/DOOR_001/command/off
+POST https://tu-api.com/api/devices/DOOR_001/command/stop
+```
+
+### 📋 Variables de Entorno en Vercel
+
+| Variable | Valor de Ejemplo | Descripción |
+|----------|------------------|-------------|
+| `API_URL` | `https://iot.midominio.com` | URL de tu API IoT (requerido) |
+
+**Sin API_URL:** La app funciona en modo simulación (ideal para demos)
 
 ## Otras Opciones de Hosting Gratuito
 
@@ -258,30 +253,50 @@ export const DEFAULT_DEVICES: Device[] = [
 ];
 ```
 
-## Integración con Hardware Real
+## 🔌 Integración con Hardware Real
 
-La aplicación actualmente simula el control de persianas. Para integrar con hardware real:
+✅ **La integración con API REST ya está implementada**
 
-### Modificar el Servicio de Control
+La aplicación envía comandos HTTP a tu API IoT automáticamente cuando configuras `API_URL`.
 
-Edita `src/app/services/blind-control.service.ts`:
+### Formato de API Implementado
 
 ```typescript
-moveUp(deviceId: string): void {
-  // Reemplaza la simulación con llamadas a tu backend
-  this.http.post(`${API_URL}/blinds/${deviceId}/up`, {})
-    .subscribe(response => {
-      console.log('Blind moving up', response);
-    });
-}
+// Subir persiana
+POST ${API_URL}/api/devices/${deviceId}/command/on
+
+// Bajar persiana
+POST ${API_URL}/api/devices/${deviceId}/command/off
+
+// Detener
+POST ${API_URL}/api/devices/${deviceId}/command/stop
 ```
 
-### Opciones de Integración
+### Modos de Operación
 
-1. **API REST**: Comunicación HTTP con tu servidor IoT
-2. **WebSocket**: Control en tiempo real bidireccional
-3. **MQTT**: Protocolo IoT ligero para dispositivos
-4. **Cloud IoT**: AWS IoT, Google Cloud IoT, Azure IoT
+**🔹 Modo API** (cuando API_URL está configurada)
+- Envía comandos reales a tu hardware
+- Logs detallados en consola
+- Simulación visual para mejor UX
+- Fallback a simulación si hay error
+
+**🔹 Modo Simulación** (cuando API_URL NO está configurada)
+- Ideal para desarrollo y demos
+- No requiere backend
+- Advertencias en consola
+
+### Ver Implementación
+
+Revisa `src/app/services/blind-control.service.ts:51-132` para ver el código completo.
+
+### Integración Futura (Opcional)
+
+Si necesitas otros protocolos:
+
+1. **WebSocket**: Control bidireccional en tiempo real
+2. **MQTT**: Protocolo IoT ligero para dispositivos
+3. **Cloud IoT**: AWS IoT, Google Cloud IoT, Azure IoT
+4. **SSE**: Server-Sent Events para updates del servidor
 
 ## Estructura del Proyecto
 

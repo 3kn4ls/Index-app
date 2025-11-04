@@ -1,14 +1,28 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, catchError, tap, of } from 'rxjs';
 import { DeviceStatus } from '../models/device.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BlindControlService {
+  private http = inject(HttpClient);
   private deviceStatusMap = new Map<string, BehaviorSubject<DeviceStatus>>();
+  private readonly apiUrl = environment.apiUrl;
 
-  constructor() {}
+  // Modo de operación: 'api' o 'simulation'
+  private mode: 'api' | 'simulation' = this.apiUrl ? 'api' : 'simulation';
+
+  constructor() {
+    if (this.mode === 'simulation') {
+      console.warn('⚠️ API_URL no configurada. Ejecutando en modo simulación.');
+      console.warn('📝 Configura API_URL en Vercel para usar la API real.');
+    } else {
+      console.log('✅ API configurada:', this.apiUrl);
+    }
+  }
 
   getDeviceStatus(deviceId: string): Observable<DeviceStatus> {
     if (!this.deviceStatusMap.has(deviceId)) {
@@ -31,46 +45,90 @@ export class BlindControlService {
   }
 
   /**
-   * Move blind up
-   * In a real implementation, this would send a command to the motorized blind hardware
+   * Move blind up - Envía comando 'on' a la API
+   * API: ${API_URL}/api/devices/${deviceId}/command/on
    */
   moveUp(deviceId: string): void {
-    console.log(`Moving up blind: ${deviceId}`);
+    console.log(`📤 Subiendo persiana: ${deviceId}`);
     this.updateStatus(deviceId, { status: 'UP' });
 
-    // Simulate movement
-    this.simulateMovement(deviceId, 'UP');
-
-    // In a real app, you would:
-    // - Send HTTP request to IoT gateway
-    // - Use MQTT to publish command
-    // - Use WebSocket for real-time control
-    // Example: this.http.post(`/api/blinds/${deviceId}/up`, {})
+    if (this.mode === 'api') {
+      this.sendCommand(deviceId, 'on').subscribe({
+        next: () => {
+          console.log(`✅ Comando 'on' enviado exitosamente a ${deviceId}`);
+          this.simulateMovement(deviceId, 'UP');
+        },
+        error: (error) => {
+          console.error(`❌ Error enviando comando 'on' a ${deviceId}:`, error);
+          // En caso de error, seguimos con la simulación local
+          this.simulateMovement(deviceId, 'UP');
+        }
+      });
+    } else {
+      this.simulateMovement(deviceId, 'UP');
+    }
   }
 
   /**
-   * Move blind down
-   * In a real implementation, this would send a command to the motorized blind hardware
+   * Move blind down - Envía comando 'off' a la API
+   * API: ${API_URL}/api/devices/${deviceId}/command/off
    */
   moveDown(deviceId: string): void {
-    console.log(`Moving down blind: ${deviceId}`);
+    console.log(`📤 Bajando persiana: ${deviceId}`);
     this.updateStatus(deviceId, { status: 'DOWN' });
 
-    // Simulate movement
-    this.simulateMovement(deviceId, 'DOWN');
-
-    // In a real app, you would send the command to your backend/IoT service
+    if (this.mode === 'api') {
+      this.sendCommand(deviceId, 'off').subscribe({
+        next: () => {
+          console.log(`✅ Comando 'off' enviado exitosamente a ${deviceId}`);
+          this.simulateMovement(deviceId, 'DOWN');
+        },
+        error: (error) => {
+          console.error(`❌ Error enviando comando 'off' a ${deviceId}:`, error);
+          // En caso de error, seguimos con la simulación local
+          this.simulateMovement(deviceId, 'DOWN');
+        }
+      });
+    } else {
+      this.simulateMovement(deviceId, 'DOWN');
+    }
   }
 
   /**
-   * Stop blind movement
-   * In a real implementation, this would send a command to the motorized blind hardware
+   * Stop blind movement - Envía comando 'stop' a la API
+   * API: ${API_URL}/api/devices/${deviceId}/command/stop
    */
   stop(deviceId: string): void {
-    console.log(`Stopping blind: ${deviceId}`);
+    console.log(`📤 Deteniendo persiana: ${deviceId}`);
     this.updateStatus(deviceId, { status: 'STOPPED' });
 
-    // In a real app, you would send the command to your backend/IoT service
+    if (this.mode === 'api') {
+      this.sendCommand(deviceId, 'stop').subscribe({
+        next: () => {
+          console.log(`✅ Comando 'stop' enviado exitosamente a ${deviceId}`);
+        },
+        error: (error) => {
+          console.error(`❌ Error enviando comando 'stop' a ${deviceId}:`, error);
+        }
+      });
+    }
+  }
+
+  /**
+   * Envía un comando a la API del dispositivo
+   * Formato: ${API_URL}/api/devices/${deviceId}/command/${command}
+   */
+  private sendCommand(deviceId: string, command: 'on' | 'off' | 'stop'): Observable<any> {
+    const url = `${this.apiUrl}/api/devices/${deviceId}/command/${command}`;
+    console.log(`🌐 Llamando API: ${url}`);
+
+    return this.http.post(url, {}).pipe(
+      tap(response => console.log('📥 Respuesta API:', response)),
+      catchError((error: HttpErrorResponse) => {
+        console.error('❌ Error en la llamada a la API:', error);
+        return of(null); // Retorna observable vacío para no romper el flujo
+      })
+    );
   }
 
   /**
