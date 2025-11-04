@@ -2,28 +2,23 @@ import { Device, DeviceType } from '../models/device.model';
 
 export const DEFAULT_DEVICES: Device[] = [
   {
-    id: 'DOOR_001',
-    description: 'Puerta Principal Salón',
+    id: 'ZWayVDev_zway_3-0-38',
+    description: 'Ventana Hab. Principal',
+    type: DeviceType.VENTANA
+  },
+  {
+    id: 'ZWayVDev_zway_8-0-38',
+    description: 'Puerta Hab. Principal',
     type: DeviceType.PUERTA
   },
+    {
+    id: 'ZWayVDev_zway_4-0-38',
+    description: 'Ventana Salón',
+    type: DeviceType.VENTANA
+  },
   {
-    id: 'DOOR_002',
-    description: 'Puerta Terraza',
+    id: 'ZWayVDev_zway_2-0-38',
+    description: 'Puerta Salón',
     type: DeviceType.PUERTA
   },
-  {
-    id: 'WINDOW_001',
-    description: 'Ventana Dormitorio Principal',
-    type: DeviceType.VENTANA
-  },
-  {
-    id: 'WINDOW_002',
-    description: 'Ventana Cocina',
-    type: DeviceType.VENTANA
-  },
-  {
-    id: 'WINDOW_003',
-    description: 'Ventana Baño',
-    type: DeviceType.VENTANA
-  }
 ];
