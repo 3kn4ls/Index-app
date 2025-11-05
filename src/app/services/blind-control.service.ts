@@ -122,7 +122,7 @@ export class BlindControlService {
     const url = `${this.apiUrl}/api/devices/${deviceId}/command/${command}`;
     console.log(`🌐 Llamando API: ${url}`);
 
-    return this.http.post(url, {}).pipe(
+    return this.http.get(url, {}).pipe(
       tap(response => console.log('📥 Respuesta API:', response)),
       catchError((error: HttpErrorResponse) => {
         console.error('❌ Error en la llamada a la API:', error);
