@@ -105,7 +105,7 @@ export class BlindControlService {
     if (this.mode === 'api') {
       this.sendCommand(deviceId, 'stop').subscribe({
         next: () => {
-          console.log(`✅ Comando 'stop' enviado exitosamente a ${deviceId}`);
+          // console.log(`✅ Comando 'stop' enviado exitosamente a ${deviceId}`);
         },
         error: (error) => {
           console.error(`❌ Error enviando comando 'stop' a ${deviceId}:`, error);
