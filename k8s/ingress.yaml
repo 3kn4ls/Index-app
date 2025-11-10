@@ -25,7 +25,7 @@ spec:
           service:
             name: home-service
             port:
-              number: 32083
+              number: 80
       # Ruta para la aplicación web (blinds control)
       - path: /blinds-control
         pathType: Prefix
@@ -34,6 +34,36 @@ spec:
             name: blinds-control-service
             port:
               number: 80
+---
+# Service para home-service (backend API externo)
+apiVersion: v1
+kind: Service
+metadata:
+  name: home-service
+  namespace: default
+  labels:
+    app: home-service
+spec:
+  type: ClusterIP
+  ports:
+  - name: api
+    protocol: TCP
+    port: 80
+    targetPort: 32083
+---
+# Endpoints para home-service (apunta al servidor externo)
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: home-service
+  namespace: default
+subsets:
+  - addresses:
+      - ip: 192.168.1.95
+    ports:
+      - name: api
+        port: 32083
+        protocol: TCP
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware

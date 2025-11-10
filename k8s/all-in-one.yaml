@@ -80,7 +80,7 @@ spec:
     targetPort: 80
   sessionAffinity: ClientIP
 ---
-# Service para home-service (backend API)
+# Service para home-service (backend API externo)
 apiVersion: v1
 kind: Service
 metadata:
@@ -89,13 +89,26 @@ metadata:
   labels:
     app: home-service
 spec:
-  type: ExternalName
-  externalName: 192.168.1.95
+  type: ClusterIP
   ports:
   - name: api
     protocol: TCP
-    port: 32083
+    port: 80
     targetPort: 32083
+---
+# Endpoints para home-service (apunta al servidor externo)
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: home-service
+  namespace: default
+subsets:
+  - addresses:
+      - ip: 192.168.1.95
+    ports:
+      - name: api
+        port: 32083
+        protocol: TCP
 ---
 # Ingress para routing
 apiVersion: networking.k8s.io/v1
@@ -125,7 +138,7 @@ spec:
           service:
             name: home-service
             port:
-              number: 32083
+              number: 80
       # Ruta para la aplicación web (blinds control)
       - path: /blinds-control
         pathType: Prefix
