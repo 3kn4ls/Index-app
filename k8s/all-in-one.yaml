@@ -80,35 +80,8 @@ spec:
     targetPort: 80
   sessionAffinity: ClientIP
 ---
-# Service para home-service (backend API externo)
-apiVersion: v1
-kind: Service
-metadata:
-  name: home-service
-  namespace: default
-  labels:
-    app: home-service
-spec:
-  type: ClusterIP
-  ports:
-  - name: api
-    protocol: TCP
-    port: 80
-    targetPort: 32083
----
-# Endpoints para home-service (apunta al servidor externo)
-apiVersion: v1
-kind: Endpoints
-metadata:
-  name: home-service
-  namespace: default
-subsets:
-  - addresses:
-      - ip: 192.168.1.95
-    ports:
-      - name: api
-        port: 32083
-        protocol: TCP
+# NOTA: El servicio home-service ya existe en el cluster
+# No es necesario crearlo aquí, solo referenciarlo en el Ingress
 ---
 # Ingress para routing
 apiVersion: networking.k8s.io/v1
@@ -131,14 +104,14 @@ spec:
   - host: northr3nd.duckdns.org
     http:
       paths:
-      # Ruta para la API - redirige al servicio home-service
+      # Ruta para la API - redirige al servicio home-service existente
       - path: /api
         pathType: Prefix
         backend:
           service:
             name: home-service
             port:
-              number: 80
+              number: 8089
       # Ruta para la aplicación web (blinds control)
       - path: /blinds-control
         pathType: Prefix
