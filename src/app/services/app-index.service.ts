@@ -16,7 +16,7 @@ export class AppIndexService {
   }
 
   private loadApps(): void {
-    this.http.get<{ apps: AppInfo[] }>('/assets/data/apps.json')
+    this.http.get<{ apps: AppInfo[] }>('/apps/assets/data/apps.json')
       .pipe(map(response => response.apps))
       .subscribe({
         next: (apps) => {
