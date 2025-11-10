@@ -80,53 +80,6 @@ spec:
     targetPort: 80
   sessionAffinity: ClientIP
 ---
-# NOTA: El servicio home-service ya existe en el cluster
-# No es necesario crearlo aquí, solo referenciarlo en el Ingress
----
-# Ingress para routing
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: home-manager-ingress
-  namespace: default
-  annotations:
-    # Configuración para k3s traefik
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    # Reescribir path para /api
-    traefik.ingress.kubernetes.io/router.middlewares: default-strip-api-prefix@kubernetescrd
-spec:
-  tls:
-  - hosts:
-    - northr3nd.duckdns.org
-    secretName: northr3nd-tls-cert
-  rules:
-  - host: northr3nd.duckdns.org
-    http:
-      paths:
-      # Ruta para la API - redirige al servicio home-service existente
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: home-service
-            port:
-              number: 8089
-      # Ruta para la aplicación web (blinds control)
-      - path: /blinds-control
-        pathType: Prefix
-        backend:
-          service:
-            name: blinds-control-service
-            port:
-              number: 80
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: strip-api-prefix
-  namespace: default
-spec:
-  stripPrefix:
-    prefixes:
-      - /api
+# NOTA: El Ingress "blinds-control" ya existe y gestiona el routing
+# No es necesario crear otro Ingress aquí
+# El servicio home-service también ya existe en el cluster

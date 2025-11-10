@@ -11,7 +11,7 @@ export const DEFAULT_DEVICES: Device[] = [
     description: 'Puerta Hab. Principal',
     type: DeviceType.PUERTA
   },
-    {
+  {
     id: 'ZWayVDev_zway_4-0-38',
     description: 'Ventana Salón',
     type: DeviceType.VENTANA
@@ -21,4 +21,14 @@ export const DEFAULT_DEVICES: Device[] = [
     description: 'Puerta Salón',
     type: DeviceType.PUERTA
   },
+  {
+    id: 'ZWayVDev_zway_7-0-38',
+    description: 'Ventana Ordenadores',
+    type: DeviceType.VENTANA
+  },
+  {
+    id: 'ZWayVDev_zway_9-0-38',
+    description: 'Ventana Hab. Jaume/Edu',
+    type: DeviceType.VENTANA
+  }
 ];
