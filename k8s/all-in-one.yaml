@@ -5,8 +5,8 @@ metadata:
   name: blinds-control-config
   namespace: default
 data:
-  # Configura tu API_URL aquí
-  API_URL: "https://tu-api-iot.com"
+  # API_URL configurada para el backend IoT
+  API_URL: "https://northr3nd.duckdns.org/api"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: blinds-control
-        image: your-registry/blinds-control-app:latest
+        image: localhost:5000/blinds-control-app:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -70,7 +70,7 @@ metadata:
   labels:
     app: blinds-control
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: blinds-control
   ports:
@@ -78,5 +78,69 @@ spec:
     protocol: TCP
     port: 80
     targetPort: 80
-    nodePort: 30333
   sessionAffinity: ClientIP
+---
+# Service para home-service (backend API)
+apiVersion: v1
+kind: Service
+metadata:
+  name: home-service
+  namespace: default
+  labels:
+    app: home-service
+spec:
+  type: ExternalName
+  externalName: 192.168.1.95
+  ports:
+  - name: api
+    protocol: TCP
+    port: 32083
+    targetPort: 32083
+---
+# Ingress para routing
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: home-manager-ingress
+  namespace: default
+  annotations:
+    # Configuración para k3s traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    # Reescribir path para /api
+    traefik.ingress.kubernetes.io/router.middlewares: default-strip-api-prefix@kubernetescrd
+spec:
+  tls:
+  - hosts:
+    - northr3nd.duckdns.org
+    secretName: northr3nd-tls-cert
+  rules:
+  - host: northr3nd.duckdns.org
+    http:
+      paths:
+      # Ruta para la API - redirige al servicio home-service
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: home-service
+            port:
+              number: 32083
+      # Ruta para la aplicación web (blinds control)
+      - path: /blinds-control
+        pathType: Prefix
+        backend:
+          service:
+            name: blinds-control-service
+            port:
+              number: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-api-prefix
+  namespace: default
+spec:
+  stripPrefix:
+    prefixes:
+      - /api

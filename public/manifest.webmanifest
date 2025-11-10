@@ -6,8 +6,8 @@
   "orientation": "portrait",
   "theme_color": "#1976d2",
   "background_color": "#ffffff",
-  "scope": "./",
-  "start_url": "./",
+  "scope": "/blinds-control/",
+  "start_url": "/blinds-control/",
   "icons": [
     {
       "src": "icons/icon-72x72.png",

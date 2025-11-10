@@ -1,7 +1,6 @@
 // Environment for production
-// Este archivo será generado automáticamente por el script set-env.js
-// usando la variable de entorno API_URL de Vercel
+// El placeholder __API_URL__ será reemplazado en runtime por el script inject-env.sh
 export const environment = {
   production: true,
-  API_URL: 'https://northr3nd.duckdns.org/api'
+  apiUrl: '__API_URL__'
 };

@@ -8,8 +8,8 @@ WORKDIR /app
 # Copiar package files
 COPY package*.json ./
 
-# Instalar dependencias
-RUN npm ci --only=production && \
+# Instalar dependencias (incluye devDependencies para el build)
+RUN npm ci && \
     npm cache clean --force
 
 # Copiar código fuente
@@ -20,6 +20,7 @@ COPY . .
 ARG API_URL
 ENV API_URL=${API_URL}
 
+# Build con baseHref configurado en angular.json
 RUN npm run build
 
 # Etapa 2: Servidor Nginx para servir la app
@@ -31,6 +32,10 @@ COPY --from=builder /app/dist/blinds-control-app/browser /usr/share/nginx/html
 # Copiar configuración personalizada de nginx
 COPY k8s/nginx.conf /etc/nginx/conf.d/default.conf
 
+# Copiar script de inyección de variables de entorno
+COPY scripts/inject-env.sh /docker-entrypoint.d/40-inject-env.sh
+RUN chmod +x /docker-entrypoint.d/40-inject-env.sh
+
 # Exponer puerto 80
 EXPOSE 80
 
@@ -38,5 +43,5 @@ EXPOSE 80
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD wget --quiet --tries=1 --spider http://localhost/index.html || exit 1
 
-# Comando para iniciar nginx
-CMD ["nginx", "-g", "daemon off;"]
+# El script inject-env.sh se ejecutará automáticamente por nginx:alpine
+# y luego iniciará nginx

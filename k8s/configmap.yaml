@@ -4,5 +4,5 @@ metadata:
   name: blinds-control-config
   namespace: default
 data:
-  # Configura tu API_URL aquí
-  API_URL: "https://tu-api-iot.com"
+  # API_URL configurada para el backend IoT
+  API_URL: "https://northr3nd.duckdns.org/api"
