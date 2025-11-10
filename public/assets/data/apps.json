@@ -1,100 +1,28 @@
 {
   "apps": [
     {
-      "code": "001",
-      "name": "Gmail",
-      "url": "https://mail.google.com",
-      "logo": "assets/images/gmail.svg",
-      "description": "Servicio de correo electrónico de Google",
-      "category": "Productividad"
+      "code": "K3S",
+      "name": "K3S Cluster Dashboard",
+      "url": "https://mc-s3rv3r.ddns.net/k3s/dashboard",
+      "logo": "assets/images/k3s.png",
+      "description": "Dashboard para gestionar el clúster K3S",
+      "category": "Monitorización"
     },
     {
-      "code": "002",
-      "name": "Google Drive",
-      "url": "https://drive.google.com",
-      "logo": "assets/images/gdrive.svg",
-      "description": "Almacenamiento en la nube y colaboración",
-      "category": "Productividad"
+      "code": "BCL",
+      "name": "Blinds Control",
+      "url": "https://mc-s3rv3r.ddns.net/blinds-control/",
+      "logo": "assets/images/blinds.png",
+      "description": "Gestion Persianas Automáticas",
+      "category": "Domótica"
     },
     {
-      "code": "003",
-      "name": "GitHub",
-      "url": "https://github.com",
-      "logo": "assets/images/github.svg",
-      "description": "Plataforma de desarrollo colaborativo",
-      "category": "Desarrollo"
-    },
-    {
-      "code": "004",
-      "name": "Slack",
-      "url": "https://slack.com",
-      "logo": "assets/images/slack.svg",
-      "description": "Comunicación y colaboración en equipo",
-      "category": "Comunicación"
-    },
-    {
-      "code": "005",
-      "name": "Trello",
-      "url": "https://trello.com",
-      "logo": "assets/images/trello.svg",
-      "description": "Gestión de proyectos con tableros visuales",
-      "category": "Productividad"
-    },
-    {
-      "code": "006",
-      "name": "Notion",
-      "url": "https://notion.so",
-      "logo": "assets/images/notion.svg",
-      "description": "Espacio de trabajo todo en uno",
-      "category": "Productividad"
-    },
-    {
-      "code": "007",
-      "name": "Figma",
-      "url": "https://figma.com",
-      "logo": "assets/images/figma.svg",
-      "description": "Diseño colaborativo de interfaces",
-      "category": "Diseño"
-    },
-    {
-      "code": "008",
-      "name": "Microsoft Teams",
-      "url": "https://teams.microsoft.com",
-      "logo": "assets/images/teams.svg",
-      "description": "Plataforma de colaboración empresarial",
-      "category": "Comunicación"
-    },
-    {
-      "code": "009",
-      "name": "Jira",
-      "url": "https://atlassian.com/software/jira",
-      "logo": "assets/images/jira.svg",
-      "description": "Gestión de proyectos ágil",
-      "category": "Desarrollo"
-    },
-    {
-      "code": "010",
-      "name": "Zoom",
-      "url": "https://zoom.us",
-      "logo": "assets/images/zoom.svg",
-      "description": "Videoconferencias y reuniones virtuales",
-      "category": "Comunicación"
-    },
-    {
-      "code": "011",
-      "name": "Docker Hub",
-      "url": "https://hub.docker.com",
-      "logo": "assets/images/docker.svg",
-      "description": "Registro de contenedores Docker",
-      "category": "Desarrollo"
-    },
-    {
-      "code": "012",
-      "name": "AWS Console",
-      "url": "https://console.aws.amazon.com",
-      "logo": "assets/images/aws.svg",
-      "description": "Consola de Amazon Web Services",
-      "category": "Cloud"
+      "code": "THD",
+      "name": "Thrall Defender",
+      "url": "https://mc-s3rv3r.ddns.net/thrall-defender/",
+      "logo": "assets/images/shield.png",
+      "description": "Dashboard para monitorizar la red",
+      "category": "Monitorización"
     }
   ]
 }
