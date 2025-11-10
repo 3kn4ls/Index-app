@@ -3,7 +3,7 @@
     {
       "code": "K3S",
       "name": "K3S Cluster Dashboard",
-      "url": "https://mc-s3rv3r.ddns.net/k3s/dashboard",
+      "url": "https://northr3nd.duckdns.org/k3s/dashboard",
       "logo": "assets/images/k3s.png",
       "description": "Dashboard para gestionar el clúster K3S",
       "category": "Monitorización"
@@ -11,7 +11,7 @@
     {
       "code": "BCL",
       "name": "Blinds Control",
-      "url": "https://mc-s3rv3r.ddns.net/blinds-control/",
+      "url": "https://northr3nd.duckdns.org/blinds-control/",
       "logo": "assets/images/blinds.png",
       "description": "Gestion Persianas Automáticas",
       "category": "Domótica"
@@ -19,7 +19,7 @@
     {
       "code": "THD",
       "name": "Thrall Defender",
-      "url": "https://mc-s3rv3r.ddns.net/thrall-defender/",
+      "url": "https://northr3nd.duckdns.org/thrall-defender/",
       "logo": "assets/images/shield.png",
       "description": "Dashboard para monitorizar la red",
       "category": "Monitorización"
