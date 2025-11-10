@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: index-app
+  labels:
+    app: index-app
+spec:
+  type: ClusterIP
+  selector:
+    app: index-app
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
