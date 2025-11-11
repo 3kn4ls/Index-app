@@ -258,7 +258,9 @@ $transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   width: 100%;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0; // Fix para flex
 }
 
 // Dark mode support
