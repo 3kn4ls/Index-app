@@ -23,6 +23,14 @@
       "logo": "assets/images/shield.png",
       "description": "Dashboard para monitorizar la red",
       "category": "Monitorización"
+    },
+        {
+      "code": "SSH",
+      "name": "SSH Mobile Client",
+      "url": "https://northr3nd.duckdns.org/ssh/",
+      "logo": "assets/images/ssh.png",
+      "description": "CLiente de SSB para dispositivos móviles",
+      "category": "Gestión Remota"
     }
   ]
 }
