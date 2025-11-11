@@ -6,3 +6,11 @@ html, body {
   padding: 0;
   overflow: hidden;
 }
+
+// Asegurar que app-root ocupe toda la altura
+app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
