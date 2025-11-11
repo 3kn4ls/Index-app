@@ -1,0 +1,47 @@
+<div class="iframe-viewer-container">
+  <!-- Loading State -->
+  @if (isLoading() && !hasError()) {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+      <p class="loading-text">Cargando {{ appName() }}...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (hasError()) {
+    <div class="error-container">
+      <div class="error-content">
+        <div class="error-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2 class="error-title">No se puede cargar en iframe</h2>
+        <p class="error-message">{{ errorMessage() }}</p>
+        <button class="open-external-button" (click)="openInNewTab()">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Abrir en nueva pestaña
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Iframe -->
+  @if (url()) {
+    <iframe
+      [src]="url()!"
+      class="app-iframe"
+      [class.loading]="isLoading()"
+      [class.error]="hasError()"
+      (load)="onIframeLoad()"
+      (error)="onIframeError()"
+      title="{{ appName() }}"
+      frameborder="0"
+      allowfullscreen
+    ></iframe>
+  }
+</div>

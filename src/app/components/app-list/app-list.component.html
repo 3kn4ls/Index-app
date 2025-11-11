@@ -1,0 +1,66 @@
+<div class="app-list-container">
+  @if (isLoading()) {
+    <!-- Loading State -->
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p class="loading-text">Cargando aplicaciones...</p>
+    </div>
+  } @else if (apps().length === 0) {
+    <!-- Empty State -->
+    <div class="empty-state">
+      <div class="empty-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <path d="M8 15s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h2 class="empty-title">No se encontraron aplicaciones</h2>
+      <p class="empty-description">Intenta buscar con otros términos</p>
+    </div>
+  } @else {
+    <!-- Apps Grid -->
+    <div class="apps-grid">
+      @for (app of apps(); track app.code) {
+        <article class="app-card" (click)="openApp(app)">
+          <div class="app-card-content">
+            <div class="app-logo">
+              <img [src]="app.logo" [alt]="app.name + ' logo'" />
+            </div>
+
+            <div class="app-info">
+              <div class="app-header">
+                <span class="app-code">{{ app.code }}</span>
+                <h3 class="app-name">{{ app.name }}</h3>
+              </div>
+
+              @if (app.description) {
+                <p class="app-description">{{ app.description }}</p>
+              }
+
+              @if (app.category) {
+                <div class="app-footer">
+                  <span class="app-category">{{ app.category }}</span>
+                </div>
+              }
+            </div>
+
+            <div class="app-arrow">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  }
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p class="footer-text">
+        Mostrando {{ apps().length }} {{ apps().length === 1 ? 'aplicación' : 'aplicaciones' }}
+      </p>
+    </div>
+  </footer>
+</div>

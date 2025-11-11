@@ -2,7 +2,18 @@
   <!-- Header -->
   <header class="header">
     <div class="header-content">
-      <div class="logo-section">
+      <!-- Back Button (solo visible en viewer) -->
+      @if (isViewerRoute()) {
+        <button class="back-button" (click)="goBack()">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 12H5M5 12l7 7M5 12l7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Volver</span>
+        </button>
+      }
+
+      <!-- Logo Section -->
+      <div class="logo-section" [class.with-back]="isViewerRoute()">
         <div class="logo-icon">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="3" y="3" width="8" height="8" rx="2" fill="currentColor"/>
@@ -14,99 +25,36 @@
         <h1 class="logo-text">App Index</h1>
       </div>
 
-      <!-- Search Bar -->
-      <div class="search-container">
-        <div class="search-box">
-          <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
-            <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <input
-            type="text"
-            class="search-input"
-            placeholder="Buscar aplicaciones por nombre, código o categoría..."
-            [value]="searchQuery()"
-            (input)="onSearchInput($event)"
-          />
-          @if (searchQuery()) {
-            <button class="clear-button" (click)="searchQuery.set(''); onSearch()">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </button>
-          }
+      <!-- Search Bar (solo visible en home) -->
+      @if (!isViewerRoute()) {
+        <div class="search-container">
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+              <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Buscar aplicaciones por nombre, código o categoría..."
+              [value]="searchQuery()"
+              (input)="onSearchInput($event)"
+            />
+            @if (searchQuery()) {
+              <button class="clear-button" (click)="searchQuery.set(''); onSearch()">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+            }
+          </div>
         </div>
-      </div>
+      }
     </div>
   </header>
 
   <!-- Main Content -->
   <main class="main-content">
-    <div class="content-wrapper">
-      @if (isLoading()) {
-        <!-- Loading State -->
-        <div class="loading-state">
-          <div class="spinner"></div>
-          <p class="loading-text">Cargando aplicaciones...</p>
-        </div>
-      } @else if (apps().length === 0) {
-        <!-- Empty State -->
-        <div class="empty-state">
-          <div class="empty-icon">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-              <path d="M8 15s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h2 class="empty-title">No se encontraron aplicaciones</h2>
-          <p class="empty-description">Intenta buscar con otros términos</p>
-        </div>
-      } @else {
-        <!-- Apps Grid -->
-        <div class="apps-grid">
-          @for (app of apps(); track app.code) {
-            <article class="app-card" (click)="openApp(app)">
-              <div class="app-card-content">
-                <div class="app-logo">
-                  <img [src]="app.logo" [alt]="app.name + ' logo'" />
-                </div>
-
-                <div class="app-info">
-                  <div class="app-header">
-                    <span class="app-code">{{ app.code }}</span>
-                    <h3 class="app-name">{{ app.name }}</h3>
-                  </div>
-
-                  @if (app.description) {
-                    <p class="app-description">{{ app.description }}</p>
-                  }
-
-                  @if (app.category) {
-                    <div class="app-footer">
-                      <span class="app-category">{{ app.category }}</span>
-                    </div>
-                  }
-                </div>
-
-                <div class="app-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-              </div>
-            </article>
-          }
-        </div>
-      }
-    </div>
+    <router-outlet />
   </main>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-content">
-      <p class="footer-text">
-        Mostrando {{ apps().length }} {{ apps().length === 1 ? 'aplicación' : 'aplicaciones' }}
-      </p>
-    </div>
-  </footer>
 </div>

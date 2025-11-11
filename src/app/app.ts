@@ -1,9 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, signal } from '@angular/core';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { filter } from 'rxjs/operators';
 import { AppIndexService } from './services/app-index.service';
-import { AppInfo } from './models/app.model';
 
 @Component({
   selector: 'app-root',
@@ -12,31 +12,33 @@ import { AppInfo } from './models/app.model';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App implements OnInit {
-  apps = signal<AppInfo[]>([]);
+export class App {
   searchQuery = signal<string>('');
-  isLoading = signal<boolean>(true);
+  isViewerRoute = signal<boolean>(false);
 
-  constructor(private appIndexService: AppIndexService) {}
-
-  ngOnInit(): void {
-    this.appIndexService.getFilteredApps().subscribe(apps => {
-      this.apps.set(apps);
-      this.isLoading.set(false);
-    });
+  constructor(
+    private router: Router,
+    private appIndexService: AppIndexService
+  ) {
+    // Detectar cuando estamos en la ruta del viewer
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.isViewerRoute.set(event.url.includes('/viewer'));
+      });
   }
 
   onSearch(): void {
     this.appIndexService.searchApps(this.searchQuery());
   }
 
-  openApp(app: AppInfo): void {
-    this.appIndexService.navigateToApp(app.url);
-  }
-
   onSearchInput(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.searchQuery.set(target.value);
     this.onSearch();
+  }
+
+  goBack(): void {
+    this.router.navigate(['/']);
   }
 }
