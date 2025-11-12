@@ -32,11 +32,11 @@ export class BlindControlComponent implements OnInit {
   }
 
   moveUp(): void {
-    this.blindControlService.moveUp(this.device.id);
+    this.blindControlService.moveUp(this.device.id, this.device.inverted || false);
   }
 
   moveDown(): void {
-    this.blindControlService.moveDown(this.device.id);
+    this.blindControlService.moveDown(this.device.id, this.device.inverted || false);
   }
 
   stop(): void {

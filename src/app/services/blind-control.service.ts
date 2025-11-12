@@ -45,21 +45,22 @@ export class BlindControlService {
   }
 
   /**
-   * Move blind up - Envía comando 'on' a la API
+   * Move blind up - Envía comando 'on' a la API (o 'off' si inverted=true)
    * API: ${API_URL}/api/devices/${deviceId}/command/on
    */
-  moveUp(deviceId: string): void {
-    console.log(`📤 Subiendo persiana: ${deviceId}`);
+  moveUp(deviceId: string, inverted: boolean = false): void {
+    const command = inverted ? 'off' : 'on';
+    console.log(`📤 Subiendo persiana: ${deviceId} ${inverted ? '(invertido)' : ''}`);
     this.updateStatus(deviceId, { status: 'UP' });
 
     if (this.mode === 'api') {
-      this.sendCommand(deviceId, 'on').subscribe({
+      this.sendCommand(deviceId, command).subscribe({
         next: () => {
-          console.log(`✅ Comando 'on' enviado exitosamente a ${deviceId}`);
+          console.log(`✅ Comando '${command}' enviado exitosamente a ${deviceId}`);
           this.simulateMovement(deviceId, 'UP');
         },
         error: (error) => {
-          console.error(`❌ Error enviando comando 'on' a ${deviceId}:`, error);
+          console.error(`❌ Error enviando comando '${command}' a ${deviceId}:`, error);
           // En caso de error, seguimos con la simulación local
           this.simulateMovement(deviceId, 'UP');
         }
@@ -70,21 +71,22 @@ export class BlindControlService {
   }
 
   /**
-   * Move blind down - Envía comando 'off' a la API
+   * Move blind down - Envía comando 'off' a la API (o 'on' si inverted=true)
    * API: ${API_URL}/api/devices/${deviceId}/command/off
    */
-  moveDown(deviceId: string): void {
-    console.log(`📤 Bajando persiana: ${deviceId}`);
+  moveDown(deviceId: string, inverted: boolean = false): void {
+    const command = inverted ? 'on' : 'off';
+    console.log(`📤 Bajando persiana: ${deviceId} ${inverted ? '(invertido)' : ''}`);
     this.updateStatus(deviceId, { status: 'DOWN' });
 
     if (this.mode === 'api') {
-      this.sendCommand(deviceId, 'off').subscribe({
+      this.sendCommand(deviceId, command).subscribe({
         next: () => {
-          console.log(`✅ Comando 'off' enviado exitosamente a ${deviceId}`);
+          console.log(`✅ Comando '${command}' enviado exitosamente a ${deviceId}`);
           this.simulateMovement(deviceId, 'DOWN');
         },
         error: (error) => {
-          console.error(`❌ Error enviando comando 'off' a ${deviceId}:`, error);
+          console.error(`❌ Error enviando comando '${command}' a ${deviceId}:`, error);
           // En caso de error, seguimos con la simulación local
           this.simulateMovement(deviceId, 'DOWN');
         }

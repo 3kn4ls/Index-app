@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Device, DeviceType } from '../../models/device.model';
 import { IndexedDBService } from '../../services/indexed-db.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -23,7 +24,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatCheckboxModule
   ],
   templateUrl: './device-form.component.html',
   styleUrl: './device-form.component.scss'
@@ -45,7 +47,8 @@ export class DeviceFormComponent {
     this.deviceForm = this.fb.group({
       id: ['', [Validators.required]],
       description: ['', [Validators.required, Validators.minLength(3)]],
-      type: [DeviceType.VENTANA, Validators.required]
+      type: [DeviceType.VENTANA, Validators.required],
+      inverted: [false] // Por defecto, no invertido
     });
   }
 
@@ -62,7 +65,7 @@ export class DeviceFormComponent {
           panelClass: ['success-snackbar']
         });
         this.deviceAdded.emit(device);
-        this.deviceForm.reset({ type: DeviceType.VENTANA });
+        this.deviceForm.reset({ type: DeviceType.VENTANA, inverted: false });
       } catch (error) {
         console.error('Error adding device:', error);
         this.snackBar.open('Error: El ID ya existe o hubo un problema', 'Cerrar', {

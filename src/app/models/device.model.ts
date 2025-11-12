@@ -7,6 +7,7 @@ export interface Device {
   id: string;
   description: string;
   type: DeviceType;
+  inverted?: boolean; // Si es true, invierte los comandos on/off (subir/bajar)
 }
 
 export interface DeviceStatus {
