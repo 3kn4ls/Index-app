@@ -9,6 +9,14 @@
       "category": "Monitorización"
     },
     {
+      "code": "WMO",
+      "name": "Wallet Monitor",
+      "url": "https://northr3nd.duckdns.org/crypto/",
+      "logo": "assets/images/coin.png",
+      "description": "Dashboard para gestionar Wallets BTC y ETH",
+      "category": "Monitorización"
+    },
+    {
       "code": "BCL",
       "name": "Blinds Control",
       "url": "https://northr3nd.duckdns.org/blinds-control/",
