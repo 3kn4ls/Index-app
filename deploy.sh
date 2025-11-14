@@ -73,44 +73,81 @@ deploy_k8s() {
     print_message "Desplegando en Kubernetes..."
 
     # Aplicar los manifiestos
-    kubectl apply -f k8s/deployment.yaml
-    kubectl apply -f k8s/service.yaml
-    kubectl apply -f k8s/ingress.yaml
+    sudo kubectl apply -f k8s/deployment.yaml
+    sudo kubectl apply -f k8s/service.yaml
+    sudo kubectl apply -f k8s/ingress.yaml
 
     if [ $? -eq 0 ]; then
         print_message "Aplicación desplegada exitosamente"
         print_message "Esperando a que los pods estén listos..."
-        kubectl wait --for=condition=ready pod -l app=index-app --timeout=300s
+        sudo kubectl wait --for=condition=ready pod -l app=index-app --timeout=300s
 
         print_message ""
         print_message "Estado del despliegue:"
-        kubectl get pods -l app=index-app
-        kubectl get svc index-app
-        kubectl get ingress index-app
+        sudo kubectl get pods -l app=index-app
+        sudo kubectl get svc index-app
+        sudo kubectl get ingress index-app
 
         print_message ""
-        print_warning "Para acceder a la aplicación:"
-        print_warning "1. Agrega '192.168.x.x index-app.local' a /etc/hosts (reemplaza con la IP de tu Raspberry Pi)"
-        print_warning "2. Accede a http://index-app.local en tu navegador"
+        print_warning "Aplicación accesible en: https://mc-s3rv3r.ddns.net/apps/"
     else
         print_error "Error al desplegar la aplicación"
         exit 1
     fi
 }
 
+# Función para actualizar la aplicación (después de cambios en git)
+update_app() {
+    print_message "Actualizando aplicación..."
+
+    # Construir nueva imagen
+    build_image
+
+    # Importar a k3s
+    import_to_k3s
+
+    # Reiniciar deployment para usar la nueva imagen
+    print_message "Reiniciando pods para aplicar cambios..."
+    sudo kubectl rollout restart deployment index-app
+
+    # Esperar a que estén listos
+    print_message "Esperando a que los pods estén listos..."
+    sudo kubectl rollout status deployment index-app --timeout=300s
+
+    print_message ""
+    print_message "Estado actualizado:"
+    sudo kubectl get pods -l app=index-app
+
+    print_message ""
+    print_message "✅ Aplicación actualizada exitosamente!"
+    print_warning "Accede a: https://mc-s3rv3r.ddns.net/apps/"
+    print_warning "Limpia la caché del navegador (Ctrl+Shift+R) para ver los cambios"
+}
+
 # Función para limpiar recursos
 cleanup() {
     print_message "Eliminando recursos de Kubernetes..."
-    kubectl delete -f k8s/deployment.yaml --ignore-not-found=true
-    kubectl delete -f k8s/service.yaml --ignore-not-found=true
-    kubectl delete -f k8s/ingress.yaml --ignore-not-found=true
+    sudo kubectl delete -f k8s/deployment.yaml --ignore-not-found=true
+    sudo kubectl delete -f k8s/service.yaml --ignore-not-found=true
+    sudo kubectl delete -f k8s/ingress.yaml --ignore-not-found=true
     print_message "Recursos eliminados"
 }
 
 # Función para mostrar logs
 show_logs() {
     print_message "Mostrando logs de la aplicación..."
-    kubectl logs -l app=index-app --tail=100 -f
+    sudo kubectl logs -l app=index-app --tail=100 -f
+}
+
+# Función para ver el estado
+show_status() {
+    print_message "Estado de la aplicación:"
+    echo ""
+    sudo kubectl get pods -l app=index-app
+    echo ""
+    sudo kubectl get svc index-app
+    echo ""
+    sudo kubectl get ingress index-app
 }
 
 # Menú principal
@@ -127,21 +164,32 @@ case "${1}" in
         import_to_k3s
         deploy_k8s
         ;;
+    update)
+        update_app
+        ;;
     cleanup)
         cleanup
         ;;
     logs)
         show_logs
         ;;
+    status)
+        show_status
+        ;;
     *)
-        echo "Uso: $0 {build|deploy|all|cleanup|logs}"
+        echo "Uso: $0 {build|deploy|all|update|status|logs|cleanup}"
         echo ""
         echo "Comandos:"
-        echo "  build   - Construir e importar la imagen Docker"
-        echo "  deploy  - Desplegar la aplicación en k3s"
-        echo "  all     - Construir, importar y desplegar"
-        echo "  cleanup - Eliminar recursos de k3s"
-        echo "  logs    - Mostrar logs de la aplicación"
+        echo "  update  - Actualizar app después de cambios (RECOMENDADO)"
+        echo "  build   - Solo construir e importar imagen Docker"
+        echo "  deploy  - Solo aplicar manifiestos k8s"
+        echo "  all     - Construir, importar y desplegar (primera vez)"
+        echo "  status  - Ver estado de la aplicación"
+        echo "  logs    - Ver logs en tiempo real"
+        echo "  cleanup - Eliminar completamente de k3s"
+        echo ""
+        echo "💡 Flujo típico después de cambios en git:"
+        echo "   ./deploy.sh update"
         exit 1
         ;;
 esac

@@ -1,13 +1,63 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>IndexApp</title>
+  <title>Index App - Portal de Aplicaciones</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="icon-192x192.png">
+
+  <!-- PWA Meta Tags -->
+  <meta name="description" content="Portal centralizado para acceder a todas tus aplicaciones web de forma rápida y organizada">
+  <meta name="theme-color" content="#007AFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Index App">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Windows Tile -->
+  <meta name="msapplication-TileColor" content="#007AFF">
+  <meta name="msapplication-TileImage" content="icon-144x144.png">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Index App - Portal de Aplicaciones">
+  <meta property="og:description" content="Portal centralizado para acceder a todas tus aplicaciones web">
+  <meta property="og:image" content="icon-512x512.png">
 </head>
 <body>
   <app-root></app-root>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/apps/service-worker.js', { scope: '/apps/' })
+          .then((registration) => {
+            console.log('✅ Service Worker registrado:', registration.scope);
+
+            // Verificar actualizaciones
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  console.log('🔄 Nueva versión disponible. Actualiza para ver los cambios.');
+                }
+              });
+            });
+          })
+          .catch((error) => {
+            console.error('❌ Error al registrar Service Worker:', error);
+          });
+      });
+    }
+  </script>
 </body>
 </html>
