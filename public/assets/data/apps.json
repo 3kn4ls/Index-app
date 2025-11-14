@@ -9,6 +9,14 @@
       "category": "Monitorización"
     },
     {
+      "code": "WOW",
+      "name": "Wow classic Armory",
+      "url": "https://northr3nd.duckdns.org/cmangos/",
+      "logo": "assets/images/wow.svg",
+      "description": "Panel administrativo para Wow Classic",
+      "category": "Administración"
+    },
+    {
       "code": "WMO",
       "name": "Wallet Monitor",
       "url": "https://northr3nd.duckdns.org/crypto/",
