@@ -11,10 +11,14 @@ Una aplicación Angular moderna y elegante para indexar y redirigir a múltiples
 
 - **Diseño Premium**: Interfaz moderna y elegante con animaciones suaves
 - **Totalmente Responsive**: Adaptada para móviles, tablets y escritorio
+- **PWA (Progressive Web App)**: Instalable en cualquier dispositivo con actualizaciones automáticas
+- **Logo Profesional**: Diseño de marca premium inspirado en las mejores compañías tech
+- **Navegación con Iframe**: Las apps se abren dentro de la aplicación manteniendo la cabecera
 - **Sin Backend**: Funciona completamente en el cliente leyendo un archivo JSON
 - **Búsqueda Inteligente**: Busca por nombre, código o categoría
+- **Actualizaciones Automáticas**: Detecta y notifica nuevas versiones disponibles
 - **Dark Mode**: Soporte automático para modo oscuro
-- **Optimizada para Producción**: Build optimizado con Nginx
+- **Optimizada para Producción**: Build optimizado con Nginx y Service Worker
 - **Lista para k3s**: Manifiestos de Kubernetes incluidos para Raspberry Pi 5
 
 ## Vista Previa

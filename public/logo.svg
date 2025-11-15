@@ -1,0 +1,31 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo con gradiente premium -->
+  <rect width="512" height="512" rx="110" fill="url(#gradient)"/>
+
+  <!-- Grid moderno y minimalista -->
+  <g opacity="0.95">
+    <!-- Cuadrado superior izquierdo -->
+    <rect x="120" y="120" width="120" height="120" rx="24" fill="white" opacity="0.95"/>
+
+    <!-- Cuadrado superior derecho -->
+    <rect x="272" y="120" width="120" height="120" rx="24" fill="white" opacity="0.85"/>
+
+    <!-- Cuadrado inferior izquierdo -->
+    <rect x="120" y="272" width="120" height="120" rx="24" fill="white" opacity="0.85"/>
+
+    <!-- Cuadrado inferior derecho con acento -->
+    <rect x="272" y="272" width="120" height="120" rx="24" fill="white" opacity="0.95"/>
+
+    <!-- Punto de acento central -->
+    <circle cx="256" cy="256" r="20" fill="white"/>
+  </g>
+
+  <!-- Gradiente moderno -->
+  <defs>
+    <linearGradient id="gradient" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#007AFF"/>
+      <stop offset="50%" stop-color="#5856D6"/>
+      <stop offset="100%" stop-color="#AF52DE"/>
+    </linearGradient>
+  </defs>
+</svg>

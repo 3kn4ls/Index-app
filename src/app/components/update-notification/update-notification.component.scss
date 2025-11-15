@@ -1,0 +1,183 @@
+$primary-color: #007AFF;
+$primary-hover: #0051D5;
+$text-primary: #1d1d1f;
+$text-secondary: #6e6e73;
+$surface: #ffffff;
+$shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+$transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+.update-notification {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @media (max-width: 768px) {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.notification-content {
+  background: $surface;
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: $shadow-lg;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 320px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  @media (max-width: 768px) {
+    min-width: auto;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, $primary-color 0%, #5856d6 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.notification-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+.notification-description {
+  font-size: 13px;
+  color: $text-secondary;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.notification-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-top: 8px;
+  }
+}
+
+.update-button {
+  padding: 10px 20px;
+  background: $primary-color;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-base;
+  font-family: inherit;
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.2);
+
+  &:hover {
+    background: $primary-hover;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    flex: 1;
+  }
+}
+
+.dismiss-button {
+  width: 36px;
+  height: 36px;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all $transition-base;
+  color: $text-secondary;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// Dark mode
+@media (prefers-color-scheme: dark) {
+  $text-primary-dark: #f5f5f7;
+  $text-secondary-dark: #a1a1a6;
+  $surface-dark: #1c1c1e;
+
+  .notification-content {
+    background: $surface-dark;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .notification-title {
+    color: $text-primary-dark;
+  }
+
+  .notification-description {
+    color: $text-secondary-dark;
+  }
+
+  .dismiss-button {
+    background: rgba(255, 255, 255, 0.1);
+    color: $text-secondary-dark;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+  }
+}
