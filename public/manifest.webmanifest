@@ -4,8 +4,8 @@
   "theme_color": "#007AFF",
   "background_color": "#f5f5f7",
   "display": "standalone",
-  "scope": "/",
-  "start_url": "/",
+  "scope": "/apps/",
+  "start_url": "/apps/",
   "orientation": "any",
   "description": "Portal elegante para acceder a todas tus aplicaciones favoritas",
   "icons": [
