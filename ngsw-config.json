@@ -5,11 +5,12 @@
     {
       "name": "app",
       "installMode": "prefetch",
+      "updateMode": "prefetch",
       "resources": {
         "files": [
           "/favicon.ico",
           "/index.html",
-          "/manifest.webmanifest",
+          "/manifest.json",
           "/*.css",
           "/*.js"
         ]
@@ -29,14 +30,14 @@
   ],
   "dataGroups": [
     {
-      "name": "api",
+      "name": "api-data",
       "urls": [
         "/assets/data/**"
       ],
       "cacheConfig": {
-        "maxSize": 100,
-        "maxAge": "1h",
-        "timeout": "10s",
+        "maxSize": 10,
+        "maxAge": "5m",
+        "timeout": "5s",
         "strategy": "freshness"
       }
     }
