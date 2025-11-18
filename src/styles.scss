@@ -45,3 +45,34 @@ body {
   background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
   box-shadow: 0 0 6px rgba(102, 126, 234, 0.5);
 }
+
+/* Voice Control Snackbar Styles */
+.snackbar-success {
+  background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%) !important;
+  color: white !important;
+  font-weight: 500;
+
+  .mat-mdc-button {
+    color: white !important;
+  }
+}
+
+.snackbar-error {
+  background: linear-gradient(135deg, #F44336 0%, #E91E63 100%) !important;
+  color: white !important;
+  font-weight: 500;
+
+  .mat-mdc-button {
+    color: white !important;
+  }
+}
+
+.snackbar-warning {
+  background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%) !important;
+  color: white !important;
+  font-weight: 500;
+
+  .mat-mdc-button {
+    color: white !important;
+  }
+}

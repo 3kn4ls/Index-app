@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DeviceListComponent } from './components/device-list/device-list.component';
 import { DeviceFormComponent } from './components/device-form/device-form.component';
+import { VoiceButtonComponent } from './components/voice-button/voice-button.component';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ import { DeviceFormComponent } from './components/device-form/device-form.compon
     MatButtonModule,
     MatExpansionModule,
     DeviceListComponent,
-    DeviceFormComponent
+    DeviceFormComponent,
+    VoiceButtonComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
