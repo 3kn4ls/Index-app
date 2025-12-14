@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
       - name: blinds-control
-        image: localhost:5000/blinds-control-app:latest
-        imagePullPolicy: Always
+        image: localhost:5000/blinds-control-app:v1.0.0
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
           protocol: TCP
