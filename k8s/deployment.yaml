@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: index-app
-        image: index-app:v1.0.0
+        image: index-app:v1.0.1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
