@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: index-app
-        image: ghcr.io/3kn4ls/index-app:v1.0.1
+        image: ghcr.io/3kn4ls/index-app:v1.0.2
         imagePullPolicy: Always
         ports:
         - containerPort: 80
