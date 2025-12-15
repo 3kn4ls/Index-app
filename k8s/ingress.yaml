@@ -8,8 +8,9 @@ metadata:
     # Configuración específica para k3s/traefik
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
 spec:
+  ingressClassName: traefik
   rules:
-  - host: mc-s3rv3r.ddns.net
+  - host: northr3nd.duckdns.org
     http:
       paths:
       - path: /apps

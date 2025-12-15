@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: index-app
-        image: index-app:v1.0.1
+        image: index-app:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
@@ -30,13 +30,13 @@ spec:
             cpu: "200m"
         livenessProbe:
           httpGet:
-            path: /
+            path: /apps/
             port: 80
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
-            path: /
+            path: /apps/
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
